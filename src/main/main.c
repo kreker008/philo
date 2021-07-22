@@ -31,7 +31,8 @@ void	check_stop(t_philoch *ph)
 				stop_flag = false;
 			if (ph[i].isdead)
 			{
-				printf("%lu %lu is dead\n", get_time_ms(), ph[i].order);
+				printf("%lu %lu is dead\n", get_time_ms() - ph->start_t,
+					   ph[i].order);
 				return;
 			}
 			++i;
@@ -42,7 +43,6 @@ void	check_stop(t_philoch *ph)
 			stop_flag = true;
 		i = 0;
 	}
-
 }
 
 void	start_simulation(t_philoch *ph)

@@ -5,7 +5,7 @@ void	wait_custom(size_t ms)
 	size_t end;
 
 	end = get_time_ms() + ms;
-	while (get_time_ms() >= end)
+	while (get_time_ms() < end)
 		usleep(333);
 }
 
