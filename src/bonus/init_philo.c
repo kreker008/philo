@@ -57,7 +57,7 @@ ret_s	init_philo(int ac, const char **argv, t_philoch **ph)
 	(*ph[0]).forks = malloc(sizeof(pthread_mutex_t) * av->num);
 	if ((*ph)->forks == NULL)
 		return -1;//(exit_massege())
-	init_philo_forks(ph);
+	//init_philo_forks(ph);
 	init_philo_order(ph);
 	return (0);
 }
