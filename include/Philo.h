@@ -68,4 +68,9 @@ void	*philo(void *philo);
 size_t	get_time_ms();
 void	wait_custom(size_t ms);
 
+/*
+ * 		set_fork_to_filo.c
+ */
+void	set_forks_to_philo(t_philoch **p_ch, int i);
+
 #endif

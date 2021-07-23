@@ -28,7 +28,7 @@ ret_s	try_eat(t_philoch *ph)
 	if (give_fokrs(ph) == DEATH_FLAG)
 		return (DEATH_FLAG);
 	printf("%lu %lu is eating\n", get_time_ms() - ph->start_t, ph->order);
-	if(get_time_ms() + ph->av->tte > ph->die_t)
+	if (get_time_ms() + ph->av->tte > ph->die_t)
 	{
 		wait_custom((ph->die_t + 1) - get_time_ms());
 		ph->isdead = true;
@@ -42,12 +42,12 @@ ret_s	try_eat(t_philoch *ph)
 	return (0);
 }
 
-ret_s try_sleep(t_philoch *ph)
+ret_s	try_sleep(t_philoch *ph)
 {
-	size_t actual_time;
+	size_t	actual_time;
 
 	actual_time = get_time_ms();
-	if(actual_time + ph->av->tts > ph->die_t)
+	if (actual_time + ph->av->tts > ph->die_t)
 	{
 		wait_custom((ph->die_t + 1) - actual_time);
 		ph->isdead = true;
@@ -58,20 +58,20 @@ ret_s try_sleep(t_philoch *ph)
 	return (0);
 }
 
-ret_s try_think(t_philoch *ph)
+ret_s	try_think(t_philoch *ph)
 {
-	if(ph->die_t < get_time_ms())
+	if (ph->die_t < get_time_ms())
 	{
 		ph->isdead = true;
 		return (DEATH_FLAG);
 	}
-	printf("%lu %lu is thinking\n", get_time_ms() - ph->start_t, ph->order );
+	printf("%lu %lu is thinking\n", get_time_ms() - ph->start_t, ph->order);
 	return (0);
 }
 
 void	*philo(void *philo)
 {
-	t_philoch *ph;
+	t_philoch	*ph;
 
 	ph = (t_philoch *)philo;
 	ph->start_t = get_time_ms();
