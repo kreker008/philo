@@ -1,4 +1,4 @@
-#include "Philo.h"
+#include "philo.h"
 
 static void	set_forks_to_philo(t_philoch **p_ch, int i)
 {

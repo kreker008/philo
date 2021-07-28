@@ -1,4 +1,4 @@
-#include "Philo.h"
+#include "philo.h"
 
 static void	check_stop(t_philoch *ph)
 {

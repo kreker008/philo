@@ -1,48 +1,42 @@
-#include "Philo_bonus.h"
+#include "philo_bonus.h"
 
-static void	check_stop(t_philoch *ph)
+static int	start_simulation(t_philoch *ph)
 {
 	int		i;
-	bool	*ne_flag;
+	pid_t	pid;
+	int		ret_status;
+	int		temp;
 
-	ne_flag = (bool[2]){false};
-	if (ph->av->ne != -1)
-		ne_flag[0] = true;
-	while (true)
+	i = -1;
+	while(++i < ph->av->num)
 	{
-		i = -1;
-		while (++i < ph->av->num)
+		if (pid != 0)
+			pid = fork();
+		if (pid == 0)
 		{
-			if (ne_flag[0] && ph[i].eat_count < ph[i].av->ne)
-				ne_flag[1] = false;
-			if (ph[i].isdead)
-			{
-				printf("%lu %lu is dead\n", get_time_ms() - ph->start_t,
-					   ph[i].order);
-				return ;
-			}
+			ret_status = philo(&ph[i]);
+			break ;
 		}
-		if (ne_flag[0] && ne_flag[1])
-			return ;
-		else if (ne_flag[0])
-			ne_flag[1] = true;
 	}
+	if (pid != 0)
+	{
+		waitpid(WAIT_ANY, &ret_status, 0);
+		temp = WEXITSTATUS(ret_status);
+		while (WEXITSTATUS(ret_status) == 0)
+		{
+			waitpid(WAIT_ANY, &ret_status, 0);
+			wait_custom(1);
+		}
+		if (WTERMSIG(ret_status) == DEATH_FLAG)
+		{
+			printf("MAIN KILL\n");
+			kill(0, 9);
+			printf("DEATH\n");
+			return (0);
+		}
+	}
+	return (ret_status);
 }
-
-static void	start_simulation(t_philoch *ph)
-{
-	int	i;
-	pid_t pid;
-
-	i = -1;
-	while (++i < ph[0].av->num)
-		fork()
-	i = -1;
-	while (++i < ph->av->num)
-		pthread_detach(ph[i].index);
-	check_stop(ph);
-}
-
 /*
  * av[1] - number_of_philosophers,
  * av[2] - time_to_die
@@ -63,8 +57,7 @@ int	main(int ac, const char **av)
 		ret_status = init_philo(ac, av, &ph);
 		if (ret_status == -1)
 			return (-1);
-		start_simulation(ph);
-		return (0);
+		return (start_simulation(ph));
 	}
 	else
 		printf("Please, use 5 or 6 arguments\n");

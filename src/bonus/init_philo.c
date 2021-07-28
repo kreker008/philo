@@ -1,4 +1,4 @@
-#include "Philo.h"
+#include "philo_bonus.h"
 
 static void	init_philo_av(int ac, const char **av, t_philoav *p_av)
 {
@@ -19,9 +19,9 @@ static void	init_philo_order(t_philoch **p_ch)
 	t_philoch	*ph_ch;
 
 	ph_ch = *p_ch;
-	i = 0;
+	i = -1;
 	while (++i < ph_ch[0].av->num)
-		ph_ch[i].order = i;
+		ph_ch[i].order = i + 1;
 }
 
 static void	set_philo_av_to_ph(t_philoch **p_ch, t_philoav *p_av)
@@ -54,10 +54,7 @@ ret_s	init_philo(int ac, const char **argv, t_philoch **ph)
 	if (*ph == NULL)
 		return -1;//(exit_massege())
 	set_philo_av_to_ph(ph, av);
-	(*ph[0]).forks = malloc(sizeof(pthread_mutex_t) * av->num);
-	if ((*ph)->forks == NULL)
-		return -1;//(exit_massege())
-	//init_philo_forks(ph);
+	init_philo_forks(ph);
 	init_philo_order(ph);
 	return (0);
 }

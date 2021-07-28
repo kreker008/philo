@@ -8,6 +8,7 @@
 #include "stdlib.h"
 #include <pthread.h>
 
+
 #define ret_s		int
 #define DEATH_FLAG	-2
 
@@ -23,7 +24,7 @@ typedef struct	s_philoav
 	size_t		ttd;
 	size_t		tte;
 	size_t		tts;
-	size_t		ne;
+	int 		ne;
 }				t_philoav;
 
 /*

@@ -1,4 +1,4 @@
-#include "Philo.h"
+#include "philo.h"
 
 ret_s	give_fokrs(t_philoch *ph)
 {
