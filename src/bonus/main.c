@@ -10,26 +10,21 @@ static int	start_simulation(t_philoch *ph)
 	i = -1;
 	while(++i < ph->av->num)
 	{
-		if (pid != 0)
-			pid = fork();
+		pid = fork();
+		printf("pid - %i\n", pid);
 		if (pid == 0)
 		{
 			ret_status = philo(&ph[i]);
-			break ;
+			break;
 		}
 	}
 	if (pid != 0)
 	{
-		waitpid(WAIT_ANY, &ret_status, 0);
-		temp = WEXITSTATUS(ret_status);
-		while (WEXITSTATUS(ret_status) == 0)
-		{
-			waitpid(WAIT_ANY, &ret_status, 0);
-			wait_custom(1);
-		}
+		//waitpid(WAIT_ANY, &ret_status, 0);
+		wait_custom(10000);
 		if (WTERMSIG(ret_status) == DEATH_FLAG)
 		{
-			printf("MAIN KILL\n");
+
 			kill(0, 9);
 			printf("DEATH\n");
 			return (0);
@@ -60,6 +55,6 @@ int	main(int ac, const char **av)
 		return (start_simulation(ph));
 	}
 	else
-		printf("Please, use 5 or 6 arguments\n");
+		write(1, "Please, use 5 or 6 arguments\n", 30);
 	return (0);
 }

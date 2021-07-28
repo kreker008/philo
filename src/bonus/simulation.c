@@ -56,6 +56,7 @@ int	philo(void *philo)
 	t_philoch	*ph;
 
 	ph = (t_philoch *)philo;
+	write(1, "FILO IS STARTED\n", 16);
 	ph->start_t = get_time_ms();
 	ph->die_t = get_time_ms() + ph->av->ttd;
 	if (ph->order % 2 == 0)

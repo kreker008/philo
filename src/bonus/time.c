@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	wait_custom(size_t ms)
 {
