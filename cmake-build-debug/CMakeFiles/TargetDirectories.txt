@@ -1,3 +1,0 @@
-/Users/rsarah/CLionProjects/philo_ssh/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/rsarah/CLionProjects/philo_ssh/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/rsarah/CLionProjects/philo_ssh/cmake-build-debug/CMakeFiles/philo.dir
