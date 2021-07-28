@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/Philo.h
+stdbool.h
+../include/stdbool.h
+stdio.h
+../include/stdio.h
+sys/time.h
+../include/sys/time.h
+unistd.h
+-
+stdlib.h
+../include/stdlib.h
+pthread.h
+-
+
+/Users/rsarah/CLionProjects/philo_ssh/src/main/simulation.c
+Philo.h
+/Users/rsarah/CLionProjects/philo_ssh/src/main/Philo.h
+

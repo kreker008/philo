@@ -8,12 +8,16 @@ ret_s	give_fokrs(t_philoch *ph)
 		return (DEATH_FLAG);
 	}
 	pthread_mutex_lock(ph->f_fork);
+	printf("%lu %lu has taken first fork\n", get_time_ms() - ph->start_t,
+		   ph->order);
 	if (get_time_ms() > ph->die_t)
 	{
 		ph->isdead = true;
 		return (DEATH_FLAG);
 	}
 	pthread_mutex_lock(ph->s_fork);
+	printf("%lu %lu has taken second fork\n", get_time_ms() - ph->start_t,
+		   ph->order);
 	if (get_time_ms() > ph->die_t)
 	{
 		ph->isdead = true;
