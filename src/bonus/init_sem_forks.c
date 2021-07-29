@@ -1,6 +1,6 @@
 #include "philo_bonus.h"
 
-void	init_philo_forks(t_philoch **p_ch)
+RET_S	init_philo_forks(t_philoch **p_ch)
 {
 	int			i;
 	sem_t 		*sem;
@@ -8,7 +8,10 @@ void	init_philo_forks(t_philoch **p_ch)
 
 	ph = *p_ch;
 	i = -1;
-	sem = sem_open("MY_SEMAPHORE", O_CREAT, 0666, ph[0].av->num / 2);
+	sem_unlink("/semaphore");
+	sem = sem_open("/semaphore", O_CREAT, 0666, ph[0].av->num);
+	if (sem == SEM_FAILED)
+		return EXIT_FAILURE; //exit_messege
 	while (++i < ph[0].av->num)
 		ph[i].sem = sem;
 }

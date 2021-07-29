@@ -11,7 +11,6 @@ static int	start_simulation(t_philoch *ph)
 	while(++i < ph->av->num)
 	{
 		pid = fork();
-		printf("pid - %i\n", pid);
 		if (pid == 0)
 		{
 			ret_status = philo(&ph[i]);
@@ -20,12 +19,12 @@ static int	start_simulation(t_philoch *ph)
 	}
 	if (pid != 0)
 	{
-		//waitpid(WAIT_ANY, &ret_status, 0);
-		wait_custom(10000);
+		waitpid(WAIT_ANY, &ret_status, 0);
+		sem_unlink("/semaphore");
+		wait_custom(1000 * 40);
 		if (WTERMSIG(ret_status) == DEATH_FLAG)
 		{
-
-			kill(0, 9);
+			kill(0, 9); //FIX KILLSIG
 			printf("DEATH\n");
 			return (0);
 		}
@@ -46,12 +45,11 @@ int	main(int ac, const char **av)
 
 	//if(isvalid_av(av))
 	//	return (exit_messege());
-	ret_status = -1;
 	if (ac == 5 || ac == 6)
 	{
 		ret_status = init_philo(ac, av, &ph);
-		if (ret_status == -1)
-			return (-1);
+		if (ret_status == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		return (start_simulation(ph));
 	}
 	else

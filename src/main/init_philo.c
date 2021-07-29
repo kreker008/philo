@@ -1,6 +1,6 @@
 #include "philo.h"
 
-static void	init_philo_av(int ac, const char **av, t_philoav *p_av)
+static void	init_av(int ac, const char **av, t_philoav *p_av)
 {
 	*p_av = (t_philoav){0};
 	p_av->num = ft_atoi(av[1]);
@@ -49,7 +49,7 @@ ret_s	init_philo(int ac, const char **argv, t_philoch **ph)
 	av = malloc(sizeof(t_philoav));
 	if (av == NULL)
 		return -1;//(exit_massege())
-	init_philo_av(ac, argv, av);
+	init_av(ac, argv, av);
 	*ph = malloc(sizeof(t_philoch) * av->num);
 	if (*ph == NULL)
 		return -1;//(exit_massege())

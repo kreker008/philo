@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <signal.h>
 
-#define ret_s		int
+#define RET_S		int
 #define DEATH_FLAG	-2
 
 /*
@@ -47,12 +47,15 @@ typedef	struct	s_philoch
 /*
  *		init_philo.c
  */
-ret_s	init_philo(int ac, const char **argv, t_philoch	**ph);
+RET_S	init_philo(int ac, const char **argv, t_philoch	**ph);
+
 
 /*
- *		ft_atoi.c
+ *		libft_func.c
  */
 int		ft_atoi(const char *str);
+size_t	ft_strlen(const char *s);
+char	*ft_itoa(int n);
 
 /*
  * 		sumulation.c
@@ -68,7 +71,11 @@ void	wait_custom(size_t ms);
 /*
  * 		set_fork_to_filo.c
  */
-void	init_philo_forks(t_philoch **p_ch);
+RET_S	init_philo_forks(t_philoch **p_ch);
 
+/*
+ * 		write_func.c
+ */
+RET_S	write_func(size_t time, size_t order, char *string);
 
 #endif //PHILO_BONUS_H

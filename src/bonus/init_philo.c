@@ -1,6 +1,6 @@
 #include "philo_bonus.h"
 
-static void	init_philo_av(int ac, const char **av, t_philoav *p_av)
+static void	init_av(int ac, const char **av, t_philoav *p_av)
 {
 	*p_av = (t_philoav){0};
 	p_av->num = ft_atoi(av[1]);
@@ -42,19 +42,20 @@ static void	set_philo_av_to_ph(t_philoch **p_ch, t_philoav *p_av)
  * argv[4] - time_to_sleep
  * argv[5] - num...
  */
-ret_s	init_philo(int ac, const char **argv, t_philoch **ph)
+RET_S	init_philo(int ac, const char **argv, t_philoch **ph)
 {
 	t_philoav	*av;
 
 	av = malloc(sizeof(t_philoav));
 	if (av == NULL)
-		return -1;//(exit_massege())
-	init_philo_av(ac, argv, av);
+		return EXIT_FAILURE;//(exit_massege())
+	init_av(ac, argv, av);
 	*ph = malloc(sizeof(t_philoch) * av->num);
 	if (*ph == NULL)
-		return -1;//(exit_massege())
+		return EXIT_FAILURE;//(exit_massege())
 	set_philo_av_to_ph(ph, av);
-	init_philo_forks(ph);
+	if (init_philo_forks(ph) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	init_philo_order(ph);
 	return (0);
 }
