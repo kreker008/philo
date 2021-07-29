@@ -5,7 +5,6 @@ static int	start_simulation(t_philoch *ph)
 	int		i;
 	pid_t	pid;
 	int		ret_status;
-	int		temp;
 
 	i = -1;
 	while(++i < ph->av->num)
@@ -19,12 +18,15 @@ static int	start_simulation(t_philoch *ph)
 	}
 	if (pid != 0)
 	{
-		waitpid(WAIT_ANY, &ret_status, 0);
-		sem_unlink("/semaphore");
-		wait_custom(1000 * 40);
+		//waitpid(WAIT_ANY, &ret_status, 0);
+		wait_custom(1000 * 2);
+		kill(0, 9); //FIX KILLSIG
+		sem_unlink("/forks");
+		sem_unlink("/print");
+		printf("return status %i\n", WEXITSTATUS(ret_status));
 		if (WTERMSIG(ret_status) == DEATH_FLAG)
 		{
-			kill(0, 9); //FIX KILLSIG
+
 			printf("DEATH\n");
 			return (0);
 		}

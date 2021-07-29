@@ -17,7 +17,7 @@ static void	set_forks_to_philo(t_philoch **p_ch, int i)
 	}
 }
 
-void	init_philo_forks(t_philoch **p_ch)
+void	init_philo_sem(t_philoch **p_ch)
 {
 	int			i;
 	t_philoch	*ph;

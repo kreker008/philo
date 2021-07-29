@@ -54,7 +54,7 @@ RET_S	init_philo(int ac, const char **argv, t_philoch **ph)
 	if (*ph == NULL)
 		return EXIT_FAILURE;//(exit_massege())
 	set_philo_av_to_ph(ph, av);
-	if (init_philo_forks(ph) == EXIT_FAILURE)
+	if (init_philo_sem(ph) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	init_philo_order(ph);
 	return (0);

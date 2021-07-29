@@ -1,6 +1,6 @@
 #include "philo_bonus.h"
 
-RET_S	give_fokrs(t_philoch *ph)
+static RET_S	give_forks(t_philoch *ph)
 {
 	if (get_time_ms() > ph->die_t)
 		return (DEATH_FLAG);
@@ -14,11 +14,11 @@ RET_S	give_fokrs(t_philoch *ph)
 	return (0);
 }
 
-RET_S	try_eat(t_philoch *ph)
+static RET_S	try_eat(t_philoch *ph)
 {
-	if (give_fokrs(ph) == DEATH_FLAG)
+	if (give_forks(ph) == DEATH_FLAG)
 		return (DEATH_FLAG);
-	write_func(get_time_ms() - ph->start_t, ph->order, "is eating\n");
+	write_func(get_time_ms() - ph->start_t, ph->order, "is eating\n", ph);
 	if (get_time_ms() + ph->av->tte > ph->die_t)
 	{
 		wait_custom((ph->die_t + 1) - get_time_ms());
@@ -32,7 +32,7 @@ RET_S	try_eat(t_philoch *ph)
 	return (0);
 }
 
-RET_S	try_sleep(t_philoch *ph)
+static RET_S	try_sleep(t_philoch *ph)
 {
 	size_t	actual_time;
 
@@ -42,16 +42,16 @@ RET_S	try_sleep(t_philoch *ph)
 		wait_custom((ph->die_t + 1) - actual_time);
 		return (DEATH_FLAG);
 	}
-	write_func(get_time_ms() - ph->start_t, ph->order, "is sleeping\n");
+	write_func(get_time_ms() - ph->start_t, ph->order, "is sleeping\n", ph);
 	wait_custom(ph->av->tts);
 	return (0);
 }
 
-RET_S	try_think(t_philoch *ph)
+static RET_S	try_think(t_philoch *ph)
 {
 	if (ph->die_t < get_time_ms())
 		return (DEATH_FLAG);
-	write_func(get_time_ms() - ph->start_t, ph->order, "is thinking\n");
+	write_func(get_time_ms() - ph->start_t, ph->order, "is thinking\n", ph);
 	return (0);
 }
 

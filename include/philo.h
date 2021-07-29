@@ -71,6 +71,6 @@ void	wait_custom(size_t ms);
 /*
  * 		set_fork_to_filo.c
  */
-void	init_philo_forks(t_philoch **p_ch);
+void	init_philo_sem(t_philoch **p_ch);
 
 #endif
