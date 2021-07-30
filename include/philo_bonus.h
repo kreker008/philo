@@ -1,18 +1,18 @@
 #ifndef PHILO_BONUS_H
-#define PHILO_BONUS_H
+# define PHILO_BONUS_H
 
-#include "stdbool.h"
-#include "stdio.h"
-#include "sys/time.h"
-#include <unistd.h>
-#include "stdlib.h"
-#include <pthread.h>
-#include "semaphore.h"
-#include <sys/types.h>
-#include <signal.h>
+# include "stdbool.h"
+# include "stdio.h"
+# include "sys/time.h"
+# include <unistd.h>
+# include "stdlib.h"
+# include <pthread.h>
+# include "semaphore.h"
+# include <sys/types.h>
+# include <signal.h>
 
-#define RET_S		int
-#define DEATH_FLAG	-2
+# define RET_S		int
+# define DEATH_FLAG	-2
 
 /*
  * 	num - number_of_philosophers / forks
@@ -77,6 +77,7 @@ RET_S	init_philo_sem(t_philoch **p_ch);
 /*
  * 		write_func.c
  */
-RET_S	write_func(size_t time, size_t order, char *string, t_philoch *ph);
+RET_S	write_func(size_t time, size_t order, char *string, t_philoch *ph,
+					int ret);
 
 #endif //PHILO_BONUS_H

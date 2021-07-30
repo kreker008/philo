@@ -1,34 +1,5 @@
 #include "philo.h"
 
-static void	check_stop(t_philoch *ph)
-{
-	int		i;
-	bool	*ne_flag;
-
-	ne_flag = (bool[2]){false};
-	if (ph->av->ne != -1)
-		ne_flag[0] = true;
-	while (true)
-	{
-		i = -1;
-		while (++i < ph->av->num)
-		{
-			if (ne_flag[0] && ph[i].eat_count < ph[i].av->ne)
-				ne_flag[1] = false;
-			if (ph[i].isdead)
-			{
-				printf("%lu %lu is dead\n", get_time_ms() - ph->start_t,
-					   ph[i].order);
-				return ;
-			}
-		}
-		if (ne_flag[0] && ne_flag[1])
-			return ;
-		else if (ne_flag[0])
-			ne_flag[1] = true;
-	}
-}
-
 static void	start_simulation(t_philoch *ph)
 {
 	int	i;
@@ -39,7 +10,20 @@ static void	start_simulation(t_philoch *ph)
 	i = -1;
 	while (++i < ph->av->num)
 		pthread_detach(ph[i].index);
-	check_stop(ph);
+	i = -1;
+	while (true)
+	{
+		while (++i < ph->av->num)
+		{
+			if (ph[i].isdead)
+			{
+				printf("%lu\t\t%lu\t\tis dead\n", get_time_ms() - ph->start_t,
+					   ph[i].order);
+				return ;
+			}
+		}
+		i = -1;
+	}
 }
 
 /*
@@ -56,7 +40,6 @@ int	main(int ac, const char **av)
 
 	//if(isvalid_av(av))
 	//	return (exit_messege());
-	ret_status = -1;
 	if (ac == 5 || ac == 6)
 	{
 		ret_status = init_philo(ac, av, &ph);

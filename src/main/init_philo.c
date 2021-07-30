@@ -42,7 +42,7 @@ static void	set_philo_av_to_ph(t_philoch **p_ch, t_philoav *p_av)
  * argv[4] - time_to_sleep
  * argv[5] - num...
  */
-ret_s	init_philo(int ac, const char **argv, t_philoch **ph)
+RET_S	init_philo(int ac, const char **argv, t_philoch **ph)
 {
 	t_philoav	*av;
 

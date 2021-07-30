@@ -9,7 +9,7 @@
 #include <pthread.h>
 
 
-#define ret_s		int
+#define RET_S		int
 #define DEATH_FLAG	-2
 
 /*
@@ -50,7 +50,7 @@ typedef	struct	s_philoch
 /*
  *		init_philo.c
  */
-ret_s	init_philo(int ac, const char **argv, t_philoch	**ph);
+RET_S	init_philo(int ac, const char **argv, t_philoch	**ph);
 
 /*
  *		ft_atoi.c
@@ -71,6 +71,7 @@ void	wait_custom(size_t ms);
 /*
  * 		set_fork_to_filo.c
  */
-void	init_philo_sem(t_philoch **p_ch);
+void	init_philo_forks(t_philoch **p_ch);
+
 
 #endif

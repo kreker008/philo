@@ -4,8 +4,8 @@ project(philo C)
 set(CMAKE_C_STANDARD 99)
 
 ##AUTOSET C-FILES
-##AUX_SOURCE_DIRECTORY(./src/main SRC)
-AUX_SOURCE_DIRECTORY(./src/bonus BONUS)
+AUX_SOURCE_DIRECTORY(./src/main SRC)
+##AUX_SOURCE_DIRECTORY(./src/bonus BONUS)
 
 
 add_executable(philo

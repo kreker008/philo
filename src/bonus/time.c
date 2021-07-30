@@ -6,7 +6,7 @@ void	wait_custom(size_t ms)
 
 	end = get_time_ms() + ms;
 	while (get_time_ms() < end)
-		usleep(333);
+		usleep(500);
 }
 
 size_t	get_time_ms(void)

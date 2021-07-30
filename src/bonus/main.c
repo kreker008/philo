@@ -3,27 +3,32 @@
 static int	start_simulation(t_philoch *ph)
 {
 	int		i;
-	pid_t	pid;
+	pid_t	pid[ph->av->num];
 	int		ret_status;
+	size_t	ph_num;
 
 	i = -1;
-	while(++i < ph->av->num)
+	ph_num = ph->av->num;
+	while(++i < ph_num)
 	{
-		pid = fork();
-		if (pid == 0)
+		pid[i] = fork();
+		if (pid[i] == 0)
 		{
 			ret_status = philo(&ph[i]);
 			break;
 		}
 	}
-	if (pid != 0)
+	if (pid[i] != 0)
 	{
-		//waitpid(WAIT_ANY, &ret_status, 0);
-		wait_custom(1000 * 2);
-		kill(0, 9); //FIX KILLSIG
+		i = -1;
+		waitpid(WAIT_ANY, &ret_status, 0);
+		while(++i < ph_num)
+			kill(pid[i], 0); //FIX KILLSIG
+		printf("return status %i\n", (signed char)WEXITSTATUS(ret_status));
 		sem_unlink("/forks");
 		sem_unlink("/print");
-		printf("return status %i\n", WEXITSTATUS(ret_status));
+		sem_close(ph[0].sem);
+		sem_close(ph[0].print_sem);
 		if (WTERMSIG(ret_status) == DEATH_FLAG)
 		{
 
