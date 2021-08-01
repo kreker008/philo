@@ -7,34 +7,38 @@ static int	start_simulation(t_philoch *ph)
 	int		ret_status;
 	size_t	ph_num;
 
-	i = -1;
 	ph_num = ph->av->num;
+	i = -1;
+	while(++i < ph_num)
+		sem_wait(ph[i].start_sem);
+	i = -1;
 	while(++i < ph_num)
 	{
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
 			ret_status = philo(&ph[i]);
-			break;
+			return (ret_status);
 		}
 	}
+	i = 0;
 	if (pid[i] != 0)
 	{
+		wait_custom(500);
+		i = -1;
+		while(++i < ph_num)
+			sem_post(ph[i].start_sem);
 		i = -1;
 		waitpid(WAIT_ANY, &ret_status, 0);
 		while(++i < ph_num)
 			kill(pid[i], 0); //FIX KILLSIG
-		printf("return status %i\n", (signed char)WEXITSTATUS(ret_status));
+		//printf("return status %i\n", (signed char)WEXITSTATUS(ret_status));
 		sem_unlink("/forks");
 		sem_unlink("/print");
+		sem_unlink("/start");
 		sem_close(ph[0].sem);
 		sem_close(ph[0].print_sem);
-		if (WTERMSIG(ret_status) == DEATH_FLAG)
-		{
-
-			printf("DEATH\n");
-			return (0);
-		}
+		sem_close(ph[0].start_sem);
 	}
 	return (ret_status);
 }

@@ -60,8 +60,7 @@ static RET_S	try_think(t_philoch *ph)
 int	philo(void *philo)
 {
 	t_philoch	*ph;
-
-	wait_custom(10);
+	sem_wait(ph->start_sem);
 	ph = (t_philoch *)philo;
 	ph->start_t = get_time_ms();
 	ph->die_t = get_time_ms() + ph->av->ttd;
@@ -71,12 +70,12 @@ int	philo(void *philo)
 	{
 		if (try_eat(ph) == DEATH_FLAG)
 			return (write_func(get_time_ms() - ph->start_t, ph->order,
-							   "is die\n", ph, DEATH_FLAG));
+							   "died\n", ph, DEATH_FLAG));
 		if (try_sleep(ph) == DEATH_FLAG)
 			return (write_func(get_time_ms() - ph->start_t, ph->order,
-							   "is die\n", ph, DEATH_FLAG));
+							   "died\n", ph, DEATH_FLAG));
 		if (try_think(ph) == DEATH_FLAG)
 			return (write_func(get_time_ms() - ph->start_t, ph->order,
-							   "is die\n", ph, DEATH_FLAG));
+							   "died\n", ph, DEATH_FLAG));
 	}
 }

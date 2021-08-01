@@ -39,6 +39,7 @@ typedef	struct	s_philoch
 	size_t					order;
 	sem_t					*sem;
 	sem_t					*print_sem;
+	sem_t					*start_sem;
 	size_t					die_t;
 	size_t 					start_t;
 	size_t					eat_count;
@@ -80,4 +81,4 @@ RET_S	init_philo_sem(t_philoch **p_ch);
 RET_S	write_func(size_t time, size_t order, char *string, t_philoch *ph,
 					int ret);
 
-#endif //PHILO_BONUS_H
+#endif

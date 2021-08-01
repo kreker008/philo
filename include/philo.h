@@ -38,11 +38,13 @@ typedef	struct	s_philoch
 	pthread_t				index;
 	pthread_mutex_t			*f_fork;
 	pthread_mutex_t			*s_fork;
+	pthread_mutex_t			*start_mut;
+	pthread_mutex_t			*print_mut;
 	size_t					die_t;
 	size_t 					start_t;
 	size_t					eat_count;
 	bool					isdead;
-	pthread_mutex_t 		*forks; // only philo order 0
+	//pthread_mutex_t 		*forks; // only philo order 0
 	t_philoav				*av;
 }							t_philoch;
 
@@ -63,15 +65,29 @@ int		ft_atoi(const char *str);
 void	*philo(void *philo);
 
 /*
+ *		libft_func.c
+ */
+int		ft_atoi(const char *str);
+size_t	ft_strlen(const char *s);
+char	*ft_itoa(int n);
+
+/*
  * 		time.c
  */
 size_t	get_time_ms();
 void	wait_custom(size_t ms);
 
 /*
- * 		set_fork_to_filo.c
+ * 		init_mutex.c
  */
-void	init_philo_forks(t_philoch **p_ch);
+RET_S	init_philo_forks(t_philoch **p_ch);
+RET_S	init_start_mutex(t_philoch **p_ch);
+RET_S	init_print_mutex(t_philoch **p_ch);
 
+/*
+ * 		write_func.c
+ */
+RET_S	write_func(size_t time, size_t order, char *string, t_philoch *ph,
+					int ret);
 
 #endif
