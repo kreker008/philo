@@ -48,11 +48,11 @@ RET_S	init_philo(int ac, const char **argv, t_philoch **ph)
 
 	av = malloc(sizeof(t_philoav));
 	if (av == NULL)
-		return EXIT_FAILURE;//(exit_massege())
+		return (exit_message(EXIT_FAILURE, "allocate error"));
 	init_av(ac, argv, av);
 	*ph = malloc(sizeof(t_philoch) * av->num);
 	if (*ph == NULL)
-		return EXIT_FAILURE;//(exit_massege())
+		return (exit_message(EXIT_FAILURE, "allocate error"));
 	set_philo_av_to_ph(ph, av);
 	if (init_philo_sem(ph) == EXIT_FAILURE)
 		return (EXIT_FAILURE);

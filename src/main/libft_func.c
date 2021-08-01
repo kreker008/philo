@@ -1,6 +1,6 @@
 #include "philo.h"
 
-static	int		ft_modul(int c)
+static	int	ft_modul(int c)
 {
 	if (c < 0)
 		return (-c);
@@ -21,12 +21,14 @@ static	size_t	ft_writechar(char *int_ch, int n)
 		int_ch[0] = '0';
 	}
 	else
+	{
 		while (n)
 		{
 			n_mod = n % 10;
 			int_ch[i++] = (char)(ft_modul(n_mod) + '0');
 			n /= 10;
 		}
+	}
 	return (i);
 }
 
@@ -43,7 +45,8 @@ char	*ft_itoa(int n)
 	if (n < 0)
 		flag = 1;
 	size = ft_writechar(int_ch, n);
-	if (!(p = malloc(size + 1 + flag)))
+	p = malloc(size + 1 + flag);
+	if (p == NULL)
 		return (NULL);
 	p[size + flag] = 0;
 	while (size)
@@ -83,7 +86,7 @@ int	ft_atoi(const char *str)
 
 size_t	ft_strlen(const char *s)
 {
-	size_t size;
+	size_t	size;
 
 	size = 0;
 	while (*(s++))

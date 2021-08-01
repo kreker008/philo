@@ -43,7 +43,8 @@ char	*ft_itoa(int n)
 	if (n < 0)
 		flag = 1;
 	size = ft_writechar(int_ch, n);
-	if (!(p = malloc(size + 1 + flag)))
+	p = malloc(size + 1 + flag);
+	if (p == NULL)
 		return (NULL);
 	p[size + flag] = 0;
 	while (size)

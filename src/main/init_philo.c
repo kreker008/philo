@@ -40,7 +40,7 @@ static void	set_philo_av_to_ph(t_philoch **p_ch, t_philoav *p_av)
  * argv[2] - time_to_die
  * argv[3] - time_to_eat
  * argv[4] - time_to_sleep
- * argv[5] - num...
+ * argv[5] - eat num
  */
 RET_S	init_philo(int ac, const char **argv, t_philoch **ph)
 {
@@ -48,15 +48,18 @@ RET_S	init_philo(int ac, const char **argv, t_philoch **ph)
 
 	av = malloc(sizeof(t_philoav));
 	if (av == NULL)
-		return -1;//(exit_massege())
+		return (exit_message(EXIT_FAILURE, "allocate error"));
 	init_av(ac, argv, av);
 	*ph = malloc(sizeof(t_philoch) * av->num);
 	if (*ph == NULL)
-		return -1;//(exit_massege())
+		return (exit_message(EXIT_FAILURE, "allocate error"));
 	set_philo_av_to_ph(ph, av);
-	init_philo_forks(ph);
-	init_start_mutex(ph);
-	init_print_mutex(ph);
+	if (init_philo_forks(ph) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (init_start_mutex(ph) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (init_print_mutex(ph) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	init_philo_order(ph);
 	return (0);
 }

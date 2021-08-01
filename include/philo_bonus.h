@@ -78,7 +78,7 @@ RET_S	init_philo_sem(t_philoch **p_ch);
 /*
  * 		write_func.c
  */
-RET_S	write_func(size_t time, size_t order, char *string, t_philoch *ph,
-					int ret);
+RET_S	write_func(char *string, t_philoch *ph,	int ret);
+RET_S	exit_message(int err_status, char *message);
 
 #endif

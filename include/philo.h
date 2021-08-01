@@ -8,7 +8,6 @@
 #include "stdlib.h"
 #include <pthread.h>
 
-
 #define RET_S		int
 #define DEATH_FLAG	-2
 
@@ -27,11 +26,6 @@ typedef struct	s_philoav
 	int 		ne;
 }				t_philoav;
 
-/*
- * 	order	- order of philosopher
- *  die_t	- if philosopher not eat at this time - he will be died
- *  av		- subject var
- */
 typedef	struct	s_philoch
 {
 	size_t					order;
@@ -44,7 +38,6 @@ typedef	struct	s_philoch
 	size_t 					start_t;
 	size_t					eat_count;
 	bool					isdead;
-	//pthread_mutex_t 		*forks; // only philo order 0
 	t_philoav				*av;
 }							t_philoch;
 
@@ -87,7 +80,7 @@ RET_S	init_print_mutex(t_philoch **p_ch);
 /*
  * 		write_func.c
  */
-RET_S	write_func(size_t time, size_t order, char *string, t_philoch *ph,
-					int ret);
+RET_S	write_func(char *string, t_philoch *ph,	int ret);
+RET_S	exit_message(int err_status, char *message);
 
 #endif

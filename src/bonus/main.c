@@ -1,5 +1,29 @@
 #include "philo_bonus.h"
 
+static RET_S	isvalid_av(int ac, const char **av)
+{
+	int	num;
+
+	num = ft_atoi(av[1]);
+	if (num < 1)
+		return (EXIT_FAILURE);
+	num = ft_atoi(av[2]);
+	if (num < 1)
+		return (EXIT_FAILURE);
+	num = ft_atoi(av[3]);
+	if (num < 1)
+		return (EXIT_FAILURE);
+	num = ft_atoi(av[4]);
+	if (num < 1)
+		return (EXIT_FAILURE);
+	if (ac == 5)
+		return (0);
+	num = ft_atoi(av[5]);
+	if (num < 1)
+		return (EXIT_FAILURE);
+	return (0);
+}
+
 static int	start_simulation(t_philoch *ph)
 {
 	int		i;
@@ -54,16 +78,17 @@ int	main(int ac, const char **av)
 	int			ret_status;
 	t_philoch	*ph;
 
-	//if(isvalid_av(av))
-	//	return (exit_messege());
 	if (ac == 5 || ac == 6)
 	{
+		if (isvalid_av(ac, av) == EXIT_FAILURE)
+			return (exit_message(0, "invalid argv"));
 		ret_status = init_philo(ac, av, &ph);
 		if (ret_status == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		return (start_simulation(ph));
+		start_simulation(ph);
+		return (0);
 	}
 	else
-		write(1, "Please, use 5 or 6 arguments\n", 30);
+		printf("Please, use 5 or 6 arguments\n");
 	return (0);
 }

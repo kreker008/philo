@@ -27,7 +27,7 @@ RET_S	init_philo_forks(t_philoch **p_ch)
 	ph = *p_ch;
 	all_forks = malloc(sizeof(pthread_mutex_t) * ph->av->num);
 	if (all_forks == NULL)
-		return -1;//(exit_massege())
+		return (exit_message(EXIT_FAILURE, "allocate error"));
 	i = -1;
 	while (++i < ph[0].av->num)
 		pthread_mutex_init(&all_forks[i], NULL);
@@ -56,7 +56,7 @@ RET_S	init_start_mutex(t_philoch **p_ch)
 	ph = *p_ch;
 	all_mutex = malloc(sizeof(pthread_mutex_t) * ph->av->num);
 	if (all_mutex == NULL)
-		return -1;//(exit_massege())
+		return (exit_message(EXIT_FAILURE, "allocate error"));
 	i = -1;
 	while (++i < ph[0].av->num)
 		pthread_mutex_init(&all_mutex[i], NULL);
@@ -75,7 +75,7 @@ RET_S	init_print_mutex(t_philoch **p_ch)
 	ph = *p_ch;
 	print_mut = malloc(sizeof(pthread_mutex_t));
 	if (print_mut == NULL)
-		return -1;//(exit_massege())
+		return (exit_message(EXIT_FAILURE, "allocate error"));
 	pthread_mutex_init(print_mut, NULL);
 	i = -1;
 	while (++i < ph[0].av->num)
