@@ -32,7 +32,8 @@ static RET_S	try_eat(t_philoch *ph)
 	wait_custom(ph->av->tte);
 	ph->die_t = get_time_ms() + ph->av->ttd;
 	if (ph->av->ne != -1)
-		++ph->eat_count;
+		if (++ph->eat_count >= ph->av->ne)
+			exit(FULL);
 	sem_post(ph->sem);
 	sem_post(ph->sem);
 	return (0);
@@ -74,10 +75,10 @@ int	philo(void *philo)
 	while (true)
 	{
 		if (try_eat(ph) == DEATH_FLAG)
-			return (write_func("died\n", ph, DEATH_FLAG));
+			exit(write_func("died\n", ph, DEATH_FLAG));
 		if (try_sleep(ph) == DEATH_FLAG)
-			return (write_func("died\n", ph, DEATH_FLAG));
+			exit(write_func("died\n", ph, DEATH_FLAG));
 		if (try_think(ph) == DEATH_FLAG)
-			return (write_func("died\n", ph, DEATH_FLAG));
+			exit(write_func("died\n", ph, DEATH_FLAG));
 	}
 }

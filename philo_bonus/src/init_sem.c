@@ -3,7 +3,7 @@
 RET_S	init_philo_sem(t_philoch **p_ch)
 {
 	int			i;
-	sem_t 		*sem[3];
+	sem_t		*sem[3];
 	t_philoch	*ph;
 
 	ph = *p_ch;

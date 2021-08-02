@@ -3,23 +3,29 @@ project(philo C)
 
 set(CMAKE_C_STANDARD 99)
 
-##AUTOSET C-FILES
-AUX_SOURCE_DIRECTORY(./src/main SRC)
-##AUX_SOURCE_DIRECTORY(./src/bonus BONUS)
+set(MAIN_PATH ${PROJECT_SOURCE_DIR}/philo)
+set(BONUS_PATH ${PROJECT_SOURCE_DIR}/philo_bonus)
 
+set(HDR_MAIN_PATH ${MAIN_PATH}/include)
+set(SRC_MAIN_PATH ${MAIN_PATH}/src)
+
+set(HDR_BONUS_PATH ${BONUS_PATH}/include)
+set(SRC_BONUS_PATH ${BONUS_PATH}/src)
+
+##AUTOSET C-FILES
+##AUX_SOURCE_DIRECTORY(${SRC_MAIN_PATH} MAIN_SRC)
+AUX_SOURCE_DIRECTORY(${SRC_BONUS_PATH} BONUS_SRC)
 
 add_executable(philo
-        ${SRC} ${BONUS}
+        ${MAIN_SRC} ${BONUS_SRC}
         )
-
-set(HDR_PATH ${PROJECT_SOURCE_DIR}/include)
 
 ##FIND LIBRARY PTHREAD
 find_library(PTHREAD_LIBRARY pthread)
 
 ##INCLUDE HDR PATH
 target_include_directories(philo PUBLIC
-        ${HDR_PATH}
+        ${HDR_MAIN_PATH} ${HDR_BONUS_PATH}
         )
 
 ##INCLUDE LIBRARIES

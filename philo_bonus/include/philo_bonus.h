@@ -13,6 +13,7 @@
 
 # define RET_S		int
 # define DEATH_FLAG	-2
+# define FULL		-3
 
 /*
  * 	num - number_of_philosophers / forks
