@@ -3,11 +3,11 @@ PROGRAM_NAME		=	philo
 HDR_PATH			=	includ
 SRC_PATH			=	src
 
-SRC					=	main.c		init_mutex.c	init_philo.c \
-						sumulation.c	time.c		write_func.c
-HDR					=	philo.h
+SRC					=	src/main.c		src/init_mutex.c	src/init_philo.c \
+						src/simulation.c	src/time.c		src/write_func.c	src/libft_func.c
+HDR					=	includ/philo.h
 
-OBJ					=	${SRC:${SRC_PATH}/%.c=%.o}
+OBJ					=	${SRC:%.c=%.o}
 
 CFLAGS				=	-Wall -Wextra -Werror
 
@@ -22,16 +22,16 @@ NORMO				=	${SRC} ${HDR}
 all:				${PROGRAM_NAME}
 
 ${PROGRAM_NAME}: 	${OBJ}
-					gcc ${LIB_PATH_INC} ${OBJ} ${LIB_INC} -o ${NAME}
+					gcc ${LIB_PATH_INC} ${OBJ} ${LIB_INC} -o ${PROGRAM_NAME}
 
 %.o:				%.c ${HDR}
-					gcc ${CFLAGS} -c $< -o  ./obj/$@
+					gcc ${CFLAGS} ${LIB_PATH_INC} -c $< -o  $@
 
 clean:
-					@rm -f ./obj/${OBJ}
+					@rm -f ${OBJ}
 
 fclean:				clean
-					@rm -f ${NAME}
+					@rm -f ${PROGRAM_NAME}
 
 norm:
 					@${NORM} ${NORMO}

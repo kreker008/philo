@@ -24,7 +24,7 @@ static RET_S	isvalid_av(int ac, const char **av)
 	return (0);
 }
 
-static void	check_stop(t_philoch *ph)
+static RET_S	check_stop(t_philoch *ph)
 {
 	int		i;
 	bool	*ne_flag;
@@ -32,20 +32,21 @@ static void	check_stop(t_philoch *ph)
 	ne_flag = (bool[2]){false};
 	if (ph->av->ne != -1)
 		ne_flag[0] = true;
+	usleep(333);
 	while (true)
 	{
 		i = -1;
-		while (++i < ph->av->num)
+		while (++i < (int)ph->av->num)
 		{
-			if (ne_flag[0] && ph[i].eat_count < ph[i].av->ne)
+			if (ne_flag[0] && (int)ph[i].eat_count < ph[i].av->ne)
 				ne_flag[1] = false;
-			if (ph[i].isdead)
-				return ;
+			if (get_time_ms() > ph[i].die_t)
+				return(write_func("died\n", &ph[i], DEATH_FLAG));
 		}
 		if (ne_flag[0] && ne_flag[1])
 		{
 			pthread_mutex_lock(ph[0].print_mut);
-			return ;
+			return (0);
 		}
 		else if (ne_flag[0])
 			ne_flag[1] = true;
@@ -57,17 +58,17 @@ static void	start_simulation(t_philoch *ph)
 	int	i;
 
 	i = -1;
-	while (++i < ph[0].av->num)
+	while (++i < (int)ph[0].av->num)
 		pthread_mutex_lock(&ph[i].start_mut[i]);
 	i = -1;
-	while (++i < ph[0].av->num)
+	while (++i < (int)ph[0].av->num)
 		pthread_create(&ph[i].index, NULL, philo, &ph[i]);
 	i = -1;
-	while (++i < ph->av->num)
+	while (++i < (int)ph->av->num)
 		pthread_detach(ph[i].index);
 	wait_custom(500);
 	i = -1;
-	while (++i < ph[0].av->num)
+	while (++i < (int)ph[0].av->num)
 		pthread_mutex_unlock(&ph[i].start_mut[i]);
 	check_stop(ph);
 }

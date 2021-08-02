@@ -30,8 +30,8 @@ typedef	struct	s_philoch
 {
 	size_t					order;
 	pthread_t				index;
-	pthread_mutex_t			*f_fork;
-	pthread_mutex_t			*s_fork;
+	pthread_mutex_t			*l_fork;
+	pthread_mutex_t			*r_fork;
 	pthread_mutex_t			*start_mut;
 	pthread_mutex_t			*print_mut;
 	size_t					die_t;

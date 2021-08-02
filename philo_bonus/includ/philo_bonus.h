@@ -82,4 +82,9 @@ RET_S	init_philo_sem(t_philoch **p_ch);
 RET_S	write_func(char *string, t_philoch *ph,	int ret);
 RET_S	exit_message(int err_status, char *message);
 
+/*
+ *		philo_process.c
+ */
+void	philo_process(t_philoch *ph);
+
 #endif

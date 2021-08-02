@@ -13,7 +13,7 @@ RET_S	write_func(char *string, t_philoch *ph,	int ret)
 	if (time_str == NULL || order_str == NULL)
 	{
 		ph->isdead = 1;
-		return (exit_message(EXIT_FAILURE, "malloc error"));
+		return (exit_message(EXIT_FAILURE, "malloc error\n"));
 	}
 	write(STDOUT_FILENO, time_str, ft_strlen(time_str));
 	write(STDOUT_FILENO, "\t\t", 2);

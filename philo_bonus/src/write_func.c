@@ -1,5 +1,4 @@
 #include "philo_bonus.h"
-#include "stdlib.h"
 
 RET_S	write_func(char *string, t_philoch *ph,	int ret)
 {

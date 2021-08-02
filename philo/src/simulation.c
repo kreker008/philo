@@ -1,86 +1,36 @@
 #include "philo.h"
 
-RET_S	give_fokrs(t_philoch *ph)
-{
-	if (get_time_ms() > ph->die_t)
-	{
-		write_func("died\n", ph, DEATH_FLAG);
-		ph->isdead = true;
-		return (DEATH_FLAG);
-	}
-	pthread_mutex_lock(ph->f_fork);
-	write_func("is give first forks\n", ph, 0);
-	if (get_time_ms() > ph->die_t)
-	{
-		write_func("died\n", ph, DEATH_FLAG);
-		ph->isdead = true;
-		return (DEATH_FLAG);
-	}
-	if (ph->av->num != 1)
-		pthread_mutex_lock(ph->s_fork);
-	else
-		wait_custom(ph->av->ttd + 1);
-	if (get_time_ms() > ph->die_t)
-	{
-		write_func("died\n", ph, DEATH_FLAG);
-		ph->isdead = true;
-		return (DEATH_FLAG);
-	}
-	return (write_func("is give second forks\n", ph, 0));
-}
-
 RET_S	try_eat(t_philoch *ph)
 {
-	if (give_fokrs(ph) == DEATH_FLAG)
-	{
-		write_func("died\n", ph, DEATH_FLAG);
-		ph->isdead = true;
-		return (DEATH_FLAG);
-	}
-	write_func("is eating\n", ph, 0);
-	if (get_time_ms() + ph->av->tte > ph->die_t)
-	{
-		wait_custom((ph->die_t + 1) - get_time_ms());
-		write_func("died\n", ph, DEATH_FLAG);
-		ph->isdead = true;
-		return (DEATH_FLAG);
-	}
-	wait_custom(ph->av->tte);
+	pthread_mutex_lock(ph->l_fork);
+	if (write_func("has taken first fork\n", ph, 0) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	pthread_mutex_lock(ph->r_fork);
+	if (write_func("has taken second fork\n", ph, 0) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	ph->die_t = get_time_ms() + ph->av->ttd;
+	if (write_func("is eating\n", ph, 0) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	wait_custom(ph->av->tte);
 	if (ph->av->ne != -1)
 		++ph->eat_count;
-	pthread_mutex_unlock(ph->f_fork);
-	pthread_mutex_unlock(ph->s_fork);
-	write_func("is drop forks\n", ph, 0);
+	pthread_mutex_unlock(ph->l_fork);
+	pthread_mutex_unlock(ph->r_fork);
 	return (0);
 }
 
 RET_S	try_sleep(t_philoch *ph)
 {
-	size_t	actual_time;
-
-	actual_time = get_time_ms();
-	if (actual_time + ph->av->tts > ph->die_t)
-	{
-		wait_custom((ph->die_t + 1) - actual_time);
-		write_func("died\n", ph, DEATH_FLAG);
-		ph->isdead = true;
-		return (DEATH_FLAG);
-	}
-	write_func("is sleeping\n", ph, 0);
+	if (write_func("is sleeping\n", ph, 0) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	wait_custom(ph->av->tts);
 	return (0);
 }
 
 RET_S	try_think(t_philoch *ph)
 {
-	if (ph->die_t < get_time_ms())
-	{
-		write_func("died\n", ph, DEATH_FLAG);
-		ph->isdead = true;
-		return (DEATH_FLAG);
-	}
-	write_func("is thinking\n", ph, 0);
+	if (write_func("is thinking\n", ph, 0) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (0);
 }
 
@@ -96,11 +46,11 @@ void	*philo(void *philo)
 		wait_custom(10);
 	while (true)
 	{
-		if (try_eat(ph) == DEATH_FLAG)
-			return (NULL);
-		if (try_sleep(ph) == DEATH_FLAG)
-			return (NULL);
-		if (try_think(ph) == DEATH_FLAG)
-			return (NULL);
+		if (try_eat(ph) == EXIT_FAILURE)
+			ph->die_t = 0;
+		if (try_sleep(ph) == EXIT_FAILURE)
+			ph->die_t = 0;
+		if (try_think(ph) == EXIT_FAILURE)
+			ph->die_t = 0;
 	}
 }

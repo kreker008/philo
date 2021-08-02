@@ -20,7 +20,7 @@ RET_S	init_philo_sem(t_philoch **p_ch)
 	if (sem[2] == SEM_FAILED)
 		return (exit_message(EXIT_FAILURE, "sem failed"));
 	i = -1;
-	while (++i < ph[0].av->num)
+	while (++i < (int)ph[0].av->num)
 	{
 		ph[i].sem = sem[0];
 		ph[i].start_sem = sem[1];

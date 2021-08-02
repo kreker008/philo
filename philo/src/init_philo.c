@@ -20,7 +20,7 @@ static void	init_philo_order(t_philoch **p_ch)
 
 	ph_ch = *p_ch;
 	i = -1;
-	while (++i < ph_ch[0].av->num)
+	while (++i < (int)ph_ch[0].av->num)
 		ph_ch[i].order = i + 1;
 }
 
@@ -31,7 +31,7 @@ static void	set_philo_av_to_ph(t_philoch **p_ch, t_philoav *p_av)
 
 	ph_ch = *p_ch;
 	i = -1;
-	while (++i < p_av->num)
+	while (++i < (int)p_av->num)
 		ph_ch[i].av = p_av;
 }
 

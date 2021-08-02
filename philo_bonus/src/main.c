@@ -29,9 +29,9 @@ static void	wait_simulation(t_philoch *ph, int *pid)
 	int	i;
 	int	ret_status;
 
-	waitpid(WAIT_ANY, &ret_status, 0);
 	i = -1;
-	while (++i < ph[0].av->num)
+	waitpid(WAIT_ANY, &ret_status, 0);
+	while (++i < (int)ph[0].av->num)
 		kill(pid[i], SIGKILL);
 	sem_unlink("/forks");
 	sem_unlink("/print");
@@ -45,9 +45,9 @@ static int	start_simulation(t_philoch *ph)
 {
 	int		i;
 	pid_t	*pid;
-	size_t	ph_num;
+	int 	ph_num;
 
-	ph_num = ph->av->num;
+	ph_num = (int)ph->av->num;
 	i = -1;
 	pid = malloc(sizeof(pid_t) * ph->av->num);
 	if (pid == NULL)
@@ -59,9 +59,12 @@ static int	start_simulation(t_philoch *ph)
 	{
 		pid[i] = fork();
 		if (pid[i] == 0)
-			philo(&ph[i]);
+		{
+			philo_process(&ph[i]);
+			exit(DEATH_FLAG);
+		}
 	}
-	wait_custom(500);
+	wait_custom(1000);
 	i = -1;
 	while (++i < ph_num)
 		sem_post(ph[i].start_sem);
