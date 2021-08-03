@@ -12,7 +12,7 @@ RET_S	write_func(char *string, t_philoch *ph,	int ret)
 	pthread_mutex_lock(ph->print_mut);
 	if (time_str == NULL || order_str == NULL)
 	{
-		ph->isdead = 1;
+		ph->start_t = 0;
 		return (exit_message(EXIT_FAILURE, "malloc error\n"));
 	}
 	write(STDOUT_FILENO, time_str, ft_strlen(time_str));

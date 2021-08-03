@@ -1,6 +1,6 @@
 #include "philo_bonus.h"
 
-static void *monitor(void *ph_ch)
+static void	*monitor(void *ph_ch)
 {
 	t_philoch	*ph;
 
@@ -11,10 +11,9 @@ static void *monitor(void *ph_ch)
 	{
 		if (get_time_ms() > ph->die_t)
 		{
-			usleep(500);
+			usleep(333);
 			exit(write_func("died\n", ph, DEATH_FLAG));
 		}
-
 	}
 }
 

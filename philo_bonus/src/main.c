@@ -27,12 +27,20 @@ static RET_S	isvalid_av(int ac, const char **av)
 static void	wait_simulation(t_philoch *ph, int *pid)
 {
 	int	i;
+	int full_eating_count;
 	int	ret_status;
 
 	i = -1;
+	full_eating_count = 0;
 	waitpid(WAIT_ANY, &ret_status, 0);
-	while (++i < (int)ph[0].av->num)
-		kill(pid[i], SIGKILL);
+	if ((signed char)WEXITSTATUS(ret_status) == DEATH_FLAG)
+		while (++i < (int)ph[0].av->num)
+			kill(pid[i], SIGKILL);
+	else
+	{
+		while(++full_eating_count < (int)ph[0].av->num)
+			waitpid(WAIT_ANY, &ret_status, 0);
+	}
 	sem_unlink("/forks");
 	sem_unlink("/print");
 	sem_unlink("/start");
@@ -41,11 +49,29 @@ static void	wait_simulation(t_philoch *ph, int *pid)
 	sem_close(ph[0].start_sem);
 }
 
+static void	create_proces(t_philoch *ph, int *pid)
+{
+	int	i;
+
+	i = -1;
+	while (++i < (int)ph->av->num)
+	{
+		pid[i] = fork();
+		if (pid[i] == EXIT_FAILURE)
+			exit(exit_message(EXIT_FAILURE, "pid error"));
+		if (pid[i] == 0)
+		{
+			philo_process(&ph[i]);
+			exit(DEATH_FLAG);
+		}
+	}
+}
+
 static int	start_simulation(t_philoch *ph)
 {
 	int		i;
 	pid_t	*pid;
-	int 	ph_num;
+	int		ph_num;
 
 	ph_num = (int)ph->av->num;
 	i = -1;
@@ -54,16 +80,7 @@ static int	start_simulation(t_philoch *ph)
 		return (exit_message(EXIT_FAILURE, "allocate error\n"));
 	while (++i < ph_num)
 		sem_wait(ph[i].start_sem);
-	i = -1;
-	while (++i < ph_num)
-	{
-		pid[i] = fork();
-		if (pid[i] == 0)
-		{
-			philo_process(&ph[i]);
-			exit(DEATH_FLAG);
-		}
-	}
+	create_proces(ph, pid);
 	wait_custom(1000);
 	i = -1;
 	while (++i < ph_num)
@@ -82,15 +99,13 @@ static int	start_simulation(t_philoch *ph)
  */
 int	main(int ac, const char **av)
 {
-	int			ret_status;
 	t_philoch	*ph;
 
 	if (ac == 5 || ac == 6)
 	{
 		if (isvalid_av(ac, av) == EXIT_FAILURE)
 			return (exit_message(0, "invalid argv"));
-		ret_status = init_philo(ac, av, &ph);
-		if (ret_status == EXIT_FAILURE)
+		if (init_philo(ac, av, &ph) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		start_simulation(ph);
 		return (0);

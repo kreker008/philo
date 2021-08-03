@@ -41,7 +41,7 @@ static RET_S	check_stop(t_philoch *ph)
 			if (ne_flag[0] && (int)ph[i].eat_count < ph[i].av->ne)
 				ne_flag[1] = false;
 			if (get_time_ms() > ph[i].die_t)
-				return(write_func("died\n", &ph[i], DEATH_FLAG));
+				return (write_func("died\n", &ph[i], DEATH_FLAG));
 		}
 		if (ne_flag[0] && ne_flag[1])
 		{
@@ -82,15 +82,13 @@ static void	start_simulation(t_philoch *ph)
  */
 int	main(int ac, const char **av)
 {
-	int			ret_status;
 	t_philoch	*ph;
 
 	if (ac == 5 || ac == 6)
 	{
 		if (isvalid_av(ac, av) == EXIT_FAILURE)
 			return (exit_message(0, "invalid argv\n"));
-		ret_status = init_philo(ac, av, &ph);
-		if (ret_status == EXIT_FAILURE)
+		if (init_philo(ac, av, &ph) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		start_simulation(ph);
 		return (0);

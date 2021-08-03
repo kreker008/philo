@@ -37,6 +37,6 @@ fclean:				clean
 norm:
 					@${NORM} ${NORMO}
 
-re:					fclean ${NAME}
+re:					fclean ${PROGRAM_NAME}
 
 .PHONY:				all clean fclean re

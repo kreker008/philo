@@ -20,7 +20,7 @@ RET_S	write_func(char *string, t_philoch *ph,	int ret)
 		write(STDOUT_FILENO, string, ft_strlen(string));
 	free(time_str);
 	free(order_str);
-	if (ret == 0)
+	if (ret == 0 || ret == FULL)
 		sem_post(ph->print_sem);
 	return (ret);
 }
